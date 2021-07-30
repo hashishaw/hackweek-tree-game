@@ -1,3 +1,9 @@
-.ack {
-  border: 1px solid green;
+body {
+  background: #010101;
+}
+.outer {
+  background: paleturquoise;
+  margin: 2em 3em;
+  border-radius: 1em;
+  padding: 1em;
 }
