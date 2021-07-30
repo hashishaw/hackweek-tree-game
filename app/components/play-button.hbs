@@ -1,10 +1,18 @@
-<button {{on 'click' runSeason}}>Run Season</button>
-{{!-- <h4>
+<h1>
+  {{game.species}}, ring
+  {{game.year}}
+  ({{game.seasonName}})
+</h1>
+{{#if game.season.isRunning}}
+  Day/night stuff
   {{#if game.ackWaiter.isRunning}}
-    Please click somewhere...
-  {{else}}
-    Thanks!
+    <h4>
+      Please click somewhere...
+    </h4>
   {{/if}}
-</h4> --}}
+{{else}}
+  <button {{on 'click' runSeason}}>Run Season</button>
+  <button {{on 'click' nextSeason}}>Next Season</button>
+{{/if}}
 
 {{!-- <button {{on 'click' game.buttonTest}}>Foo event</button> --}}

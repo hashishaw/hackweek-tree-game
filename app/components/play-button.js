@@ -10,4 +10,9 @@ export default class PlayButtonComponent extends Component {
     console.log('running season');
     this.game.runSeason(10);
   }
+
+  @action
+  nextSeason() {
+    this.game.nextSeason();
+  }
 }

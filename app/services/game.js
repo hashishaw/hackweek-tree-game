@@ -1,22 +1,44 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-// import { task, timeout, waitForEvent } from 'ember-concurrency';
+import { task, timeout, waitForEvent } from 'ember-concurrency';
 
+const SEASONS = ['spring', 'summer', 'fall', 'winter'];
 export default class GameService extends Service {
   constructor() {
     super();
     console.log('constructing game');
+    this.species = 'Oak';
     // this.season.perform();
   }
 
-  @tracked clock = 1;
+  @tracked clock = 0;
   @tracked stopClock = -1;
   @tracked paused = false;
+  @tracked seasonCount = 0;
+  @tracked year = 1;
+  // @tracked species = 'oak';
+
+  nextYear() {
+    this.year++;
+  }
+  nextSeason() {
+    this.seasonCount++;
+    if (this.seasonCount > 0 && this.seasonCount % 4 === 0) {
+      this.nextYear();
+    }
+  }
+
+  get seasonName() {
+    return SEASONS[this.seasonCount % 4];
+  }
 
   tick() {
     this.clock++;
     console.log('tick', this.clock);
     // do stuff
+    if (this.clock === 5) {
+      this.paused = true;
+    }
     return this.clock;
   }
   nextAnimationFrame() {
@@ -25,7 +47,7 @@ export default class GameService extends Service {
     const now = Date.now();
     if (nextTimeToTick <= now) {
       this.tick();
-      nextTimeToTick = now + 3000; // tick rate
+      nextTimeToTick = now + 1000; // tick rate
     }
     if (this.stopClock > this.clock) {
       requestAnimationFrame(this.nextAnimationFrame.bind(this));
@@ -35,24 +57,32 @@ export default class GameService extends Service {
   runSeason(setNumber = 10) {
     this.stopClock = this.clock + setNumber;
 
-    this.nextAnimationFrame();
+    // this.nextAnimationFrame();
+    this.season.perform();
+    // this.nextSeason();
   }
 
-  // @task *season() {
-  //   console.log('loping');
-  //   while (true) {
-  //     // tick the tock
-  //     yield this.ackWaiter.perform();
-  //     yield timeout(1500);
-  //   }
-  // }
+  @task *season() {
+    console.log('looping');
+    while (this.clock < this.stopClock) {
+      // tick the tock
+      this.tick();
+      console.log('tock', this.clock);
+      if (this.paused) {
+        yield this.ackWaiter.perform();
+      }
+      yield timeout(1000);
+    }
+  }
 
-  // @task *ackWaiter() {
-  //   let event = yield waitForEvent(this, 'fooEvent');
-  //   return event;
-  // }
+  @task *ackWaiter() {
+    window.alert('hello!');
+    let event = yield waitForEvent(document.body, 'click');
+    this.paused = false;
+    return event;
+  }
 
-  // buttonTest() {
-  //   this.trigger('fooEvent', { v: Math.random() });
-  // }
+  buttonTest() {
+    this.trigger('fooEvent', { v: Math.random() });
+  }
 }
