@@ -27,6 +27,9 @@ export default class GameService extends Service {
       this.nextYear();
     }
   }
+  pause() {
+    this.paused = !this.paused;
+  }
 
   get seasonName() {
     return SEASONS[this.seasonCount % 4];
@@ -54,12 +57,12 @@ export default class GameService extends Service {
     }
   }
 
-  runSeason(setNumber = 10) {
+  @task *runSeason(setNumber = 10) {
     this.stopClock = this.clock + setNumber;
 
     // this.nextAnimationFrame();
-    this.season.perform();
-    // this.nextSeason();
+    yield this.season.perform();
+    this.nextSeason();
   }
 
   @task *season() {
@@ -76,7 +79,7 @@ export default class GameService extends Service {
   }
 
   @task *ackWaiter() {
-    window.alert('hello!');
+    // TODO: wait for better event
     let event = yield waitForEvent(document.body, 'click');
     this.paused = false;
     return event;

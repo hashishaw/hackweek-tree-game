@@ -1,0 +1,12 @@
+<h1>
+  {{this.game.species}}, ring
+  {{this.game.year}}
+  ({{this.game.seasonName}})
+</h1>
+{{#if this.pauseScreen}}
+  <button {{on 'click' togglePause}}>Resume</button>
+{{else}}
+  <PlayButton />
+  <button {{on 'click' togglePause}}>Pause</button>
+{{/if}}
+<div class='scene-background'></div>

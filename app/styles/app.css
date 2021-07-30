@@ -1,9 +1,43 @@
 body {
-  background: #010101;
+  background: #221c1e;
 }
 .outer {
   background: paleturquoise;
   margin: 2em 3em;
   border-radius: 1em;
   padding: 1em;
+}
+
+.scene-background {
+  width: 50%;
+  border: 1px solid #221c1e;
+  background: #221c1e;
+  /* animation: over 3s ease-in-out infinite; */
+}
+
+.scene-background:after {
+  content: '';
+  display: block;
+  padding-bottom: 100%;
+}
+
+@keyframes over {
+  0% {
+    background-color: #221c1e;
+  }
+  10% {
+    background-color: blue;
+  }
+  20% {
+    background-color: paleturquoise;
+  }
+  80% {
+    background-color: paleturquoise;
+  }
+  90% {
+    background-color: blue;
+  }
+  100% {
+    background-color: #221c1e;
+  }
 }

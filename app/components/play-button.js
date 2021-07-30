@@ -8,7 +8,7 @@ export default class PlayButtonComponent extends Component {
   @action
   runSeason() {
     console.log('running season');
-    this.game.runSeason(10);
+    this.game.runSeason.perform(8);
   }
 
   @action
