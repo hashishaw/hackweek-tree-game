@@ -1,5 +1,6 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
 import { task, timeout, waitForEvent } from 'ember-concurrency';
 
 const SEASONS = ['spring', 'summer', 'fall', 'winter'];
@@ -11,6 +12,7 @@ export default class GameService extends Service {
     // this.season.perform();
   }
 
+  @service locale;
   @tracked clock = 0;
   @tracked stopClock = -1;
   @tracked paused = false;

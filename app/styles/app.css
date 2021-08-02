@@ -1,5 +1,21 @@
+:root {
+  /* CSS HEX */
+  --dark-lava: #423629;
+  --dark-moss-green: #4f5d2f;
+  --moss-green: #8aa34f;
+  --earth-yellow: #d9ae61;
+  --light-blue: #c4ebf6;
+
+  /* CSS HSL */
+  --dark-lava: hsla(31, 23%, 21%, 1);
+  --dark-moss-green: hsla(78, 33%, 27%, 1);
+  --moss-green: hsla(78, 35%, 47%, 1);
+  --earth-yellow: hsla(39, 61%, 62%, 1);
+  --light-blue: hsla(193, 74%, 87%, 1);
+}
+
 body {
-  background: #221c1e;
+  background: var(--dark-lava);
 }
 .outer {
   background: paleturquoise;

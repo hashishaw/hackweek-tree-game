@@ -1,8 +1,12 @@
 {{page-title 'YouAreATree'}}
-<LinkTo @route='play'>
-  Play
-</LinkTo>
 
 <div class='outer'>
-  {{outlet}}
+  <LinkTo @route='play'>
+    Play (only show on root)
+  </LinkTo>
+  {{#if has-outlet}}
+    {{outlet}}
+  {{else}}
+    Home page!
+  {{/if}}
 </div>
