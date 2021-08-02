@@ -1,3 +1,5 @@
+@import 'ember-modal-dialog/ember-modal-structure.css';
+@import 'ember-modal-dialog/ember-modal-appearance.css';
 :root {
   /* CSS HEX */
   --dark-lava: #423629;
@@ -60,6 +62,9 @@ body {
 }
 
 /* GAME-INTERFACE */
+.ember-modal-overlay {
+  background-color: hsla(193, 74%, 87%, 0.7);
+}
 .title {
   grid-area: header;
 }
@@ -76,10 +81,62 @@ body {
 
 .container {
   display: grid;
-  grid-template-columns: 100px 1fr 100px;
-  grid-template-rows: 50px 1fr 50px;
+  grid-template-columns: 100px 1fr 200px;
+  grid-template-rows: 80px 1fr 50px;
   grid-template-areas:
-    'header header header header'
-    'actions main main stats'
-    'footer footer footer footer';
+    'header header header'
+    'actions main stats'
+    'footer footer footer';
+}
+
+/* THERMOMETER */
+.thermometer {
+  width: 6px;
+  height: 500px;
+  margin: 10px auto;
+  background-color: transparent;
+
+  background-image: -webkit-linear-gradient(
+    bottom,
+    rgb(91, 216, 255),
+    rgb(255, 0, 0)
+  );
+  background-image: -moz-linear-gradient(
+    bottom,
+    rgb(91, 216, 255),
+    rgb(255, 0, 0)
+  );
+  background-image: -o-linear-gradient(
+    bottom,
+    rgb(91, 216, 255),
+    rgb(255, 0, 0)
+  );
+  background-image: -ms-linear-gradient(
+    bottom,
+    rgb(91, 216, 255),
+    rgb(255, 0, 0)
+  );
+  background-image: linear-gradient(bottom, rgb(91, 216, 255), rgb(255, 0, 0));
+  box-shadow: inset 0 -2px 2px rgba(0, 0, 0, 0.4);
+  border-radius: 3px 0 0 3px;
+}
+.thermometer:after {
+  content: '';
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  margin-top: -0.5em;
+  margin-right: -1em;
+  background-image: -webkit-linear-gradient(top, rgb(0, 0, 0), rgb(33, 33, 33));
+  background-image: -moz-linear-gradient(top, rgb(0, 0, 0), rgb(33, 33, 33));
+  background-image: -o-linear-gradient(top, rgb(0, 0, 0), rgb(33, 33, 33));
+  background-image: -ms-linear-gradient(top, rgb(0, 0, 0), rgb(33, 33, 33));
+  background-image: linear-gradient(top, rgb(0, 0, 0), rgb(33, 33, 33));
+}
+.thermometer.done:after {
+  background: Red;
 }

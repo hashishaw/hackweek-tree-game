@@ -1,24 +1,35 @@
-<div class='container'>
-  <div class='title'>
-    <h1>
-      {{this.game.species}}, ring
-      {{this.game.year}}
-      ({{this.game.seasonName}})
-    </h1>
-  </div>
-  <div class='actions'>
-    Sidebar (Left)
-  </div>
-  <div class='main'>
-    <div class='scene-background'></div>
-  </div>
-  <div class='stats'>
-    {{#if this.game.paused}}
-      <button {{on 'click' togglePause}}>Resume</button>
-    {{else if this.game.runSeason.isRunning}}
-      <button {{on 'click' togglePause}}>Pause</button>
+{{#let (gt this.game.clock 0) as |started|}}
+  <div class='container'>
+    {{#if started}}
+      <div class='title'>
+        <h1>
+          {{this.game.species}}, ring
+          {{this.game.year}}
+          ({{this.game.seasonName}})
+        </h1>
+      </div>
+      <div class='actions'>
+        Sidebar (Left)
+      </div>
+      <div class='main'>
+        <div class='scene-background'></div>
+      </div>
+      <div class='stats'>
+        <Sidebar @game={{this.game}} />
+      </div>
     {{else}}
-      <PlayButton />
+      <div class='main'>
+        <h1>Start Game</h1>
+        <button {{on 'click' this.startGame}}>Start Game</button>
+      </div>
     {{/if}}
   </div>
-</div>
+
+  {{#if this.game.paused}}
+    {{#modal-dialog}}
+      <h2>Game is Paused</h2>
+      <button {{on 'click' this.pause}}>Resume</button>
+    {{/modal-dialog}}
+  {{/if}}
+
+{{/let}}

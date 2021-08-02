@@ -1,37 +1,41 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { inject as service } from '@ember/service';
-import {
-  task,
-  timeout,
-  waitForEvent,
-  waitForProperty,
-} from 'ember-concurrency';
+import { task, timeout, waitForProperty } from 'ember-concurrency';
+import LocaleService from './locale';
 
+const TICK_RATE = 700;
 const SEASONS = ['spring', 'summer', 'fall', 'winter'];
+const SEASON_DAYS = 10; // TODO: season days should be 91
 export default class GameService extends Service {
   constructor() {
     super();
-    console.log('constructing game');
-    this.species = 'Oak';
-    // this.season.perform();
+    console.log('construct game');
+    this.species = 'Sycamore';
+    this.locale = new LocaleService({ location: 'Texas' });
+    this.started = false;
   }
 
-  @service locale;
+  @tracked fastMode = true;
+  @tracked tempUnit = 'F';
+  // Time-based things tracked here
   @tracked clock = 0;
   @tracked stopClock = -1;
   @tracked paused = false;
   @tracked seasonCount = 0;
   @tracked year = 1;
+  @tracked hasEvent = false;
   // @tracked species = 'oak';
 
   nextYear() {
     this.year++;
   }
-  nextSeason() {
+  nextSeason(fakeCount = false) {
     this.seasonCount++;
     if (this.seasonCount > 0 && this.seasonCount % 4 === 0) {
       this.nextYear();
+    }
+    if (fakeCount) {
+      this.clock += SEASON_DAYS;
     }
   }
   get seasonName() {
@@ -41,41 +45,45 @@ export default class GameService extends Service {
   tick() {
     this.clock++;
     console.log('tick', this.clock);
-    // do stuff
-    if (this.clock === 5) {
-      this.paused = true;
-    }
+    // Get weather
+    this.locale.getWeather(this.clock, this.seasonCount);
+    // TODO: Adjust env
+    // TODO: Tree resources
+    // TODO: Get event (non-player pause)
     return this.clock;
   }
   nextAnimationFrame() {
-    console.log('calling next', this);
     let nextTimeToTick = Date.now();
     const now = Date.now();
     if (nextTimeToTick <= now) {
       this.tick();
-      nextTimeToTick = now + 1000; // tick rate
+      nextTimeToTick = now + TICK_RATE;
     }
     if (this.stopClock > this.clock) {
       requestAnimationFrame(this.nextAnimationFrame.bind(this));
     }
   }
 
-  @task *runSeason(setNumber = 10) {
+  @task *runSeason(setNumber = SEASON_DAYS) {
     this.stopClock = this.clock + setNumber;
+    this.locale.resetSeasonalStats();
 
-    // this.nextAnimationFrame();
-    yield this.season.perform();
-    this.nextSeason();
+    if (this.fastMode) {
+      this.clock++;
+      let newClock = yield this.locale.fastSeason.perform(this.clock);
+      this.clock = newClock;
+    } else {
+      yield this.runDays.perform();
+      this.nextSeason();
+    }
   }
 
-  @task *season() {
+  @task *runDays() {
     while (this.clock < this.stopClock) {
       if (this.paused) {
         yield this.pauseWaiter.perform();
       }
-      // tick the tock
       this.tick();
-      console.log('tock', this.clock);
       yield timeout(1000);
     }
   }

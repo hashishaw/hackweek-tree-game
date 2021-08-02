@@ -3,22 +3,22 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | Component | play-button', function(hooks) {
+module('Integration | Component | thermometer', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`<PlayButton />`);
+    await render(hbs`<Thermometer />`);
 
     assert.equal(this.element.textContent.trim(), '');
 
     // Template block usage:
     await render(hbs`
-      <PlayButton>
+      <Thermometer>
         template block text
-      </PlayButton>
+      </Thermometer>
     `);
 
     assert.equal(this.element.textContent.trim(), 'template block text');

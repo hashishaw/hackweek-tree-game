@@ -1,19 +1,22 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
-export default class GameInterfaceComponent extends Component {
+export default class SidebarComponent extends Component {
   @service game;
-  @tracked pauseScreen = false;
 
   @action
-  startGame() {
+  runSeason() {
     this.game.runSeason.perform();
   }
 
   @action
   pause() {
     this.game.pause();
+  }
+
+  @action
+  nextSeason() {
+    this.game.nextSeason(true);
   }
 }
