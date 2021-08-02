@@ -1,7 +1,12 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
-import { task, timeout, waitForEvent } from 'ember-concurrency';
+import {
+  task,
+  timeout,
+  waitForEvent,
+  waitForProperty,
+} from 'ember-concurrency';
 
 const SEASONS = ['spring', 'summer', 'fall', 'winter'];
 export default class GameService extends Service {
@@ -29,10 +34,6 @@ export default class GameService extends Service {
       this.nextYear();
     }
   }
-  pause() {
-    this.paused = !this.paused;
-  }
-
   get seasonName() {
     return SEASONS[this.seasonCount % 4];
   }
@@ -68,26 +69,26 @@ export default class GameService extends Service {
   }
 
   @task *season() {
-    console.log('looping');
     while (this.clock < this.stopClock) {
+      if (this.paused) {
+        yield this.pauseWaiter.perform();
+      }
       // tick the tock
       this.tick();
       console.log('tock', this.clock);
-      if (this.paused) {
-        yield this.ackWaiter.perform();
-      }
       yield timeout(1000);
     }
   }
 
-  @task *ackWaiter() {
-    // TODO: wait for better event
-    let event = yield waitForEvent(document.body, 'click');
-    this.paused = false;
-    return event;
+  pause() {
+    this.paused = !this.paused;
+  }
+  @task *pauseWaiter() {
+    yield waitForProperty(this, 'paused', false);
   }
 
   buttonTest() {
-    this.trigger('fooEvent', { v: Math.random() });
+    console.log('button test');
+    // this.trigger('barEvent', { v: Math.random() });
   }
 }

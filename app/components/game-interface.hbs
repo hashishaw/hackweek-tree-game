@@ -1,12 +1,24 @@
-<h1>
-  {{this.game.species}}, ring
-  {{this.game.year}}
-  ({{this.game.seasonName}})
-</h1>
-{{#if this.pauseScreen}}
-  <button {{on 'click' togglePause}}>Resume</button>
-{{else}}
-  <PlayButton />
-  <button {{on 'click' togglePause}}>Pause</button>
-{{/if}}
-<div class='scene-background'></div>
+<div class='container'>
+  <div class='title'>
+    <h1>
+      {{this.game.species}}, ring
+      {{this.game.year}}
+      ({{this.game.seasonName}})
+    </h1>
+  </div>
+  <div class='actions'>
+    Sidebar (Left)
+  </div>
+  <div class='main'>
+    <div class='scene-background'></div>
+  </div>
+  <div class='stats'>
+    {{#if this.game.paused}}
+      <button {{on 'click' togglePause}}>Resume</button>
+    {{else if this.game.runSeason.isRunning}}
+      <button {{on 'click' togglePause}}>Pause</button>
+    {{else}}
+      <PlayButton />
+    {{/if}}
+  </div>
+</div>

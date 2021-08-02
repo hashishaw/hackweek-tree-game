@@ -15,7 +15,8 @@
 }
 
 body {
-  background: var(--dark-lava);
+  background-color: var(--dark-lava);
+  image-rendering: pixelated;
 }
 .outer {
   background: paleturquoise;
@@ -56,4 +57,29 @@ body {
   100% {
     background-color: #221c1e;
   }
+}
+
+/* GAME-INTERFACE */
+.title {
+  grid-area: header;
+}
+.main {
+  grid-area: main;
+}
+.actions {
+  grid-area: actions;
+}
+.stats {
+  grid-area: stats;
+  background-color: var(--moss-green);
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 100px 1fr 100px;
+  grid-template-rows: 50px 1fr 50px;
+  grid-template-areas:
+    'header header header header'
+    'actions main main stats'
+    'footer footer footer footer';
 }
