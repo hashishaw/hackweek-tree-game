@@ -74,8 +74,8 @@ export default class GameService extends Service {
       this.clock = newClock;
     } else {
       yield this.runDays.perform();
-      this.nextSeason();
     }
+    this.nextSeason();
   }
 
   @task *runDays() {

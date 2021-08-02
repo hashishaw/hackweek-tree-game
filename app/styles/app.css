@@ -2,7 +2,9 @@
 @import 'ember-modal-dialog/ember-modal-appearance.css';
 :root {
   /* CSS HEX */
+  --black-chocolate: #261f18;
   --dark-lava: #423629;
+  --raw-umber: #715d47;
   --dark-moss-green: #4f5d2f;
   --moss-green: #8aa34f;
   --earth-yellow: #d9ae61;
@@ -10,6 +12,7 @@
 
   /* CSS HSL */
   --dark-lava: hsla(31, 23%, 21%, 1);
+  --raw-umber: hsla(31, 23%, 36%, 1);
   --dark-moss-green: hsla(78, 33%, 27%, 1);
   --moss-green: hsla(78, 35%, 47%, 1);
   --earth-yellow: hsla(39, 61%, 62%, 1);
@@ -139,4 +142,48 @@ body {
 }
 .thermometer.done:after {
   background: Red;
+}
+
+/** weather box */
+.scene {
+  position: relative;
+  background: black;
+  padding: 3px;
+}
+.weather-box {
+  width: 100%;
+  height: 250px;
+  display: block;
+  background: #1a1f47;
+}
+.weather-box.running {
+  animation: sky 1s infinite;
+  animation-direction: alternate;
+}
+.ground-box {
+  width: 100%;
+  height: 250px;
+  display: block;
+  background: var(--black-chocolate);
+}
+.ground-box.running {
+  animation: ground 1s infinite;
+  animation-direction: alternate;
+}
+
+@keyframes sky {
+  from {
+    background-color: #1a1f47;
+  }
+  to {
+    background-color: var(--light-blue);
+  }
+}
+@keyframes ground {
+  from {
+    background-color: var(--black-chocolate);
+  }
+  to {
+    background-color: var(--raw-umber);
+  }
 }

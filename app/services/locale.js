@@ -139,7 +139,7 @@ export default class LocaleService extends Service {
     let finish = x + SEASON_DAYS;
     while (x <= finish) {
       this.getWeather(x, season);
-      yield timeout(300);
+      yield timeout(250);
       x = x + 1;
     }
     return x;

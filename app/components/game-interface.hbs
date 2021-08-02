@@ -12,7 +12,7 @@
         Sidebar (Left)
       </div>
       <div class='main'>
-        <div class='scene-background'></div>
+        <WeatherBg @running={{this.game.runSeason.isRunning}} />
       </div>
       <div class='stats'>
         <Sidebar @game={{this.game}} />
