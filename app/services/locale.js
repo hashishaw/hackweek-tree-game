@@ -23,10 +23,12 @@ export default class LocaleService extends Service {
   @tracked totalRain = 0;
   @tracked sunshine = 0;
   @tracked totalSun = 0;
+  @tracked eventCount = 0;
 
   resetSeasonalStats() {
     this.totalRain = 0;
     this.totalSun = 0;
+    this.eventCount = 0;
   }
 
   /**
@@ -114,18 +116,41 @@ export default class LocaleService extends Service {
     return 0 > result ? 0 : result;
   }
 
+  /**
+   * Weather Event
+   * @param {number} temp temperature (F) for the day
+   * @param {number} difference temp change from yesterday
+   * @param {number} seasonCt idx of season
+   */
+  getWeatherEvent(temp, difference, seasonCt) {
+    let chance = rollZed(20);
+    console.log(chance, this.instability);
+    if (3 + this.instability > chance) {
+      return 'FLOOD';
+      return {
+        title: 'Weather Event!',
+        details: 'There is flooding in your area',
+      };
+    }
+    return null;
+  }
+
   getWeather(x = 0, season = 0) {
     let prevTemp = this.temp;
     let y = this.getTempForDay(x);
     let rain = this.getRainForSeason(season, y - prevTemp);
     let sunshine = this.getSunshineForSeason(rain);
-    console.log(rain, 'rain', sunshine, 'sunshine');
+    let event = this.getWeatherEvent(y, y - prevTemp);
+    console.log(rain, 'rain', sunshine, 'sunshine', event, 'event');
+    if (event) {
+      this.eventCount++;
+    }
 
-    this.temp = Math.round(y);
     this.rain = rain;
     this.totalRain = this.totalRain + rain;
     this.sunshine = sunshine;
     this.totalSun = this.totalSun + sunshine;
+    this.temp = Math.round(y);
 
     return {
       x,

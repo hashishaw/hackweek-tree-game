@@ -44,7 +44,6 @@ export default class GameService extends Service {
 
   tick() {
     this.clock++;
-    console.log('tick', this.clock);
     // Get weather
     this.locale.getWeather(this.clock, this.seasonCount);
     // TODO: Adjust env

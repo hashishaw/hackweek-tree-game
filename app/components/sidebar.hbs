@@ -13,7 +13,9 @@
     Total rain:
     {{format-float this.game.locale.totalRain}}<br />
     Total sun:
-    {{format-float this.game.locale.totalSun}}
+    {{format-float this.game.locale.totalSun}}<br />
+    Event count:
+    {{this.game.locale.eventCount}}
   </div>
   <button {{on 'click' this.runSeason}}>Run season</button>
   <button {{on 'click' this.nextSeason}}>Next season</button>
