@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
@@ -14,6 +15,7 @@ import { action } from '@ember/object';
 // var LEAF_SIZE = 32;
 
 export default class TreeComponent extends Component {
+  @service('tree') treeStats;
   @tracked root;
 
   draw() {

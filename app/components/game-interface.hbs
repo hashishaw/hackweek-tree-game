@@ -9,10 +9,15 @@
         </h1>
       </div>
       <div class='actions'>
-        Sidebar (Left)
+        {{#if this.game.runSeason.isRunning}}
+          <Actions @tree={{this.game.tree}} />
+        {{/if}}
       </div>
       <div class='main'>
-        <WeatherBg @running={{this.game.runSeason.isRunning}} />
+        <WeatherBg
+          @running={{this.game.runSeason.isRunning}}
+          @game={{this.game}}
+        />
       </div>
       <div class='stats'>
         <Sidebar @game={{this.game}} />

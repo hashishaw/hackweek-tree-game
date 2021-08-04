@@ -11,12 +11,12 @@
   --light-blue: #c4ebf6;
 
   /* CSS HSL */
-  --dark-lava: hsla(31, 23%, 21%, 1);
-  --raw-umber: hsla(31, 23%, 36%, 1);
-  --dark-moss-green: hsla(78, 33%, 27%, 1);
-  --moss-green: hsla(78, 35%, 47%, 1);
-  --earth-yellow: hsla(39, 61%, 62%, 1);
-  --light-blue: hsla(193, 74%, 87%, 1);
+  --dark-lava-t: hsla(31, 23%, 21%, 0.7);
+  --raw-umber-t: hsla(31, 23%, 36%, 0.7);
+  --dark-moss-green-t: hsla(78, 33%, 27%, 0.7);
+  --moss-green-t: hsla(78, 35%, 47%, 0.7);
+  --earth-yellow-t: hsla(39, 61%, 62%, 0.7);
+  --light-blue-t: hsla(193, 74%, 87%, 0.7);
 }
 
 body {
@@ -154,7 +154,8 @@ body {
   width: 100%;
   height: 250px;
   display: block;
-  background: #1a1f47;
+  background: var(--light-blue);
+  position: relative;
 }
 .weather-box.running {
   animation: sky 1s infinite;
@@ -164,7 +165,7 @@ body {
   width: 100%;
   height: 250px;
   display: block;
-  background: var(--black-chocolate);
+  background: var(--raw-umber);
 }
 .ground-box.running {
   animation: ground 1s infinite;
@@ -186,4 +187,52 @@ body {
   to {
     background-color: var(--raw-umber);
   }
+}
+
+.tree-icon {
+  position: absolute;
+  bottom: -70px;
+  right: 70px;
+  font-size: 200px;
+}
+.tree-stats {
+  color: var(--light-blue);
+}
+
+/** ACTIONS */
+.actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.action {
+  border: 5px solid var(--dark-moss-green);
+  background-color: var(--moss-green);
+  color: var(--earth-yellow);
+  width: 80px;
+  word-wrap: break-word;
+  height: 80px;
+  margin-bottom: 1em;
+  cursor: pointer;
+  vertical-align: center;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.action.disabled {
+  border-color: var(--dark-moss-green-t);
+  background-color: var(--moss-green-t);
+}
+
+.empty-action {
+  border: 5px solid black;
+  background-color: darkgray;
+  width: 80px;
+  word-wrap: break-word;
+  height: 80px;
+  margin-bottom: 1em;
+  vertical-align: center;
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }

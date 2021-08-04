@@ -2,8 +2,9 @@ import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout, waitForProperty } from 'ember-concurrency';
 import LocaleService from './locale';
+import TreeService from './tree';
 
-const TICK_RATE = 700;
+const TICK_RATE = 1000;
 const SEASONS = ['spring', 'summer', 'fall', 'winter'];
 const SEASON_DAYS = 10; // TODO: season days should be 91
 export default class GameService extends Service {
@@ -12,10 +13,11 @@ export default class GameService extends Service {
     console.log('construct game');
     this.species = 'Sycamore';
     this.locale = new LocaleService({ location: 'Texas' });
+    this.tree = new TreeService({ species: 'Sycamore' });
     this.started = false;
   }
 
-  @tracked fastMode = true;
+  @tracked fastMode = false;
   @tracked tempUnit = 'F';
   // Time-based things tracked here
   @tracked clock = 0;
@@ -45,7 +47,8 @@ export default class GameService extends Service {
   tick() {
     this.clock++;
     // Get weather
-    this.locale.getWeather(this.clock, this.seasonCount);
+    let weather = this.locale.getWeather(this.clock, this.seasonCount);
+    this.tree.dailyGrow(weather);
     // TODO: Adjust env
     // TODO: Tree resources
     // TODO: Get event (non-player pause)

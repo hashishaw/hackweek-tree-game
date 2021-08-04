@@ -156,6 +156,7 @@ export default class LocaleService extends Service {
       x,
       y,
       rain,
+      sunshine,
       difference: y - prevTemp,
     };
   }

@@ -1,0 +1,24 @@
+{{#if (eq @type 'leaves')}}
+  <button
+    class='action {{if @tree.growLeaves.isRunning 'disabled'}}'
+    {{on 'click' @tree.growLeaves.perform}}
+  >
+    Grow Leaves
+  </button>
+{{else if (eq @type 'mass')}}
+  <button
+    class='action {{if @tree.growMass.isRunning 'disabled'}}'
+    {{on 'click' @tree.growMass.perform}}
+  >
+    Grow Mass
+  </button>
+{{else if (eq @type 'water')}}
+  <button
+    class='action {{if @tree.storeWater.isRunning 'disabled'}}'
+    {{on 'click' @tree.storeWater.perform}}
+  >
+    Store Water
+  </button>
+{{else}}
+  <div class='empty-action'></div>
+{{/if}}
