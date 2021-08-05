@@ -7,6 +7,11 @@ import TreeService from './tree';
 const TICK_RATE = 1000;
 const SEASONS = ['spring', 'summer', 'fall', 'winter'];
 const SEASON_DAYS = 10; // TODO: season days should be 91
+
+/**
+ * You Are A Tree
+ * Game of planning and execution. Has 3 modes: season (action), shopping (marketplace), and planning (inventory)
+ */
 export default class GameService extends Service {
   constructor() {
     super();
@@ -25,6 +30,7 @@ export default class GameService extends Service {
   @tracked seasonCount = 0;
   @tracked year = 1;
   @tracked hasEvent = false;
+  @tracked gameState = 'INIT'; // 'SEASON', 'STORE', 'ACTIONS'
   // @tracked species = 'oak';
   get gameOver() {
     return this.tree.status === 'Dead';

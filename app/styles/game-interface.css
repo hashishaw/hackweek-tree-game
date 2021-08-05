@@ -1,0 +1,27 @@
+/* GAME-INTERFACE */
+.ember-modal-overlay {
+  background-color: hsla(193, 74%, 87%, 0.7);
+}
+.title {
+  grid-area: header;
+}
+.main {
+  grid-area: main;
+}
+.actions {
+  grid-area: actions;
+}
+.stats {
+  grid-area: stats;
+  background-color: var(--moss-green);
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 100px 1fr 200px;
+  grid-template-rows: 80px 1fr 50px;
+  grid-template-areas:
+    'header header header'
+    'actions main stats'
+    'footer footer footer';
+}
