@@ -16,4 +16,9 @@ export default class GameInterfaceComponent extends Component {
   pause() {
     this.game.pause();
   }
+
+  @action
+  reset() {
+    location.reload();
+  }
 }
