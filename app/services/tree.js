@@ -20,11 +20,13 @@ export default class TreeService extends Service {
   @tracked rootEnds = 8; // count of ends that can absorb water
   @tracked rootDepth = 0.5; // meters
   @tracked waterStored = 0.5; // TODO: Unit here?
-  @tracked stressed = false;
 
+  get displayHeight() {
+    return `${Math.floor(this.trunkHeight * 5)}em`;
+  }
   get waterStorageTotal() {
     let area = Math.pow(this.diameter / 2, 2) * Math.PI;
-    return area * this.trunkHeight;
+    return Math.ceil(area * this.trunkHeight * 10);
   }
   get efficiency() {
     // Efficiency = leaveCount / sun hours
@@ -35,45 +37,60 @@ export default class TreeService extends Service {
       console.log('is dead');
       return 'Dead';
     }
-    if (this.stressed) return 'stressed';
+    if (this.waterStored < 0.1) return 'Stressed';
     return 'Healthy';
+  }
+  updatePhp(newPhp) {
+    if (newPhp < 0) {
+      this.php = 0;
+    } else {
+      this.php = newPhp;
+    }
   }
   @task *growLeaves() {
     console.log('grow leaves');
     let amount = rollDie(5);
-    this.php -= amount;
+    this.updatePhp(this.php - amount);
     yield timeout(1000);
     this.leafCount += amount;
     // how many leaves it grows depends on how many branches, PHP spent, water available
   }
-  @task *storeWater() {
-    console.log('store water');
+  @task *storeWater(evt, efficiency = 0.4) {
     // TODO: Work in water retention, mass here and water table/root depth
-    let waterAmt = this.rootEnds * 0.4;
+    let waterAmt = this.rootEnds * efficiency;
+    let newWater = this.waterStored + waterAmt;
+    console.log(this.rootEnds, efficiency, waterAmt);
+    console.log({ waterAmt, newWater });
+    console.log('store water', newWater);
+    if (this.waterStorageTotal < newWater) {
+      console.log('not enough capacity', this.waterStorageTotal);
+      newWater = this.waterStorageTotal;
+    }
     yield timeout(1000);
-    this.waterStored += waterAmt;
+    this.waterStored = newWater;
     // cost: 1 PhP
     // How much water it can store on an action depends on water table, root depth, and
   }
-  @task *growMass() {
-    console.log('grow mass');
+  @task *growMass(evt, growthSpeed = 1, costRatio = 1) {
     // TODO: calculate better
-    let newGrowth = this.diameter * 0.1;
-    this.php -= Math.ceil(newGrowth);
+    let newGrowth = growthSpeed * 0.1;
+    let amount = Math.ceil(newGrowth * costRatio);
+    console.log('grow mass, php spent:', amount, this.php);
+    this.updatePhp(this.php - amount);
     yield timeout(1000);
     this.diameter += newGrowth;
   }
   @action
-  makeEnergy(sunshineHours) {
+  makeEnergy(sunshineHours, waterRatio = 5) {
     let php = this.leafCount * Math.floor(sunshineHours / this.sunReq);
-    let water = php / 10;
-    console.log('making energy', php, water);
+    let water = php / waterRatio;
+    // console.log('making energy', php, water);
     if (this.waterStored < water) {
       // not enough water for full conversion
       water = this.waterStored;
       php = water * 10;
     }
-    this.php += php;
+    this.updatePhp(this.php + php);
     this.waterStored -= water;
     // Can only happen during sunshine hours
     // Will not work if sun levels are less than this.sunReq
@@ -87,19 +104,16 @@ export default class TreeService extends Service {
       return;
     }
     // let water = this.waterStored + Math.floor(weather.rain) * this.rootEnds;
-    if (this.waterStored < 0.1) {
-      console.log('STRESSED');
-      this.stressed = true;
+    if (this.status === 'Stressed') {
       this.leafCount -= 1;
+      this.updatePhp(this.php - rollDie(5));
       return;
     }
-    this.stressed = false;
     // Automatic growth that happens based on weather
-    console.log('GROW!', weather);
     this.diameter += 0.1; // TODO: Change based on season
     this.leafCount += rollDie(20) >= 15 ? 1 : 0;
     this.waterStored -= 0.1;
-    this.php -= 1;
+    this.updatePhp(this.php - 1);
     this.makeEnergy(weather.sunshine);
     // TODO: adjust water table
   }

@@ -10,7 +10,6 @@ const SEASON_DAYS = 10; // TODO: season days should be 91
 export default class GameService extends Service {
   constructor() {
     super();
-    console.log('construct game');
     this.species = 'Sycamore';
     this.locale = new LocaleService({ location: 'Texas' });
     this.tree = new TreeService({ species: 'Sycamore' });
@@ -27,6 +26,12 @@ export default class GameService extends Service {
   @tracked year = 1;
   @tracked hasEvent = false;
   // @tracked species = 'oak';
+  get gameOver() {
+    return this.tree.status === 'Dead';
+  }
+  get seasonName() {
+    return SEASONS[this.seasonCount % 4];
+  }
 
   nextYear() {
     this.year++;
@@ -39,9 +44,6 @@ export default class GameService extends Service {
     if (fakeCount) {
       this.clock += SEASON_DAYS;
     }
-  }
-  get seasonName() {
-    return SEASONS[this.seasonCount % 4];
   }
 
   tick() {
@@ -77,11 +79,13 @@ export default class GameService extends Service {
     } else {
       yield this.runDays.perform();
     }
-    this.nextSeason();
+    if (!this.gameOver) {
+      this.nextSeason();
+    }
   }
 
   @task *runDays() {
-    while (this.clock < this.stopClock) {
+    while (this.clock < this.stopClock && !this.gameOver) {
       if (this.paused) {
         yield this.pauseWaiter.perform();
       }
@@ -95,10 +99,5 @@ export default class GameService extends Service {
   }
   @task *pauseWaiter() {
     yield waitForProperty(this, 'paused', false);
-  }
-
-  buttonTest() {
-    console.log('button test');
-    // this.trigger('barEvent', { v: Math.random() });
   }
 }

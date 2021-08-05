@@ -124,13 +124,13 @@ export default class LocaleService extends Service {
    */
   getWeatherEvent(temp, difference, seasonCt) {
     let chance = rollZed(20);
-    console.log(chance, this.instability);
+    // console.log(chance, this.instability);
     if (3 + this.instability > chance) {
       return 'FLOOD';
-      return {
-        title: 'Weather Event!',
-        details: 'There is flooding in your area',
-      };
+      // return {
+      //   title: 'Weather Event!',
+      //   details: 'There is flooding in your area',
+      // };
     }
     return null;
   }
@@ -141,7 +141,7 @@ export default class LocaleService extends Service {
     let rain = this.getRainForSeason(season, y - prevTemp);
     let sunshine = this.getSunshineForSeason(rain);
     let event = this.getWeatherEvent(y, y - prevTemp);
-    console.log(rain, 'rain', sunshine, 'sunshine', event, 'event');
+    // console.log(rain, 'rain', sunshine, 'sunshine', event, 'event');
     if (event) {
       this.eventCount++;
     }

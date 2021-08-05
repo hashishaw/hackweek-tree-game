@@ -1,5 +1,7 @@
 @import 'ember-modal-dialog/ember-modal-structure.css';
 @import 'ember-modal-dialog/ember-modal-appearance.css';
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Sigmar+One&display=swap');
+
 :root {
   /* CSS HEX */
   --black-chocolate: #261f18;
@@ -22,6 +24,18 @@
 body {
   background-color: var(--dark-lava);
   image-rendering: pixelated;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button,
+.title {
+  font-family: 'Sigmar One', sans-serif;
 }
 .outer {
   background: paleturquoise;
@@ -156,6 +170,29 @@ body {
   display: block;
   background: var(--light-blue);
   position: relative;
+  background-repeat: no-repeat;
+  background-image: radial-gradient(
+      ellipse at 50% 100%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(255, 255, 255, 0) 51%
+    ),
+    radial-gradient(
+      ellipse at 50% 100%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(255, 255, 255, 0) 51%
+    ),
+    radial-gradient(
+      ellipse at 50% 100%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(255, 255, 255, 0) 51%
+    ),
+    radial-gradient(
+      ellipse at 50% 100%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(255, 255, 255, 0) 51%
+    );
+  background-size: 100px 40px, 150px 70px, 200px 80px, 120px 50px;
+  background-position: 10% 30%, -10% 18%, 100% 60%, 110% 65%;
 }
 .weather-box.running {
   animation: sky 1s infinite;
@@ -166,6 +203,59 @@ body {
   height: 250px;
   display: block;
   background: var(--raw-umber);
+  background-repeat: no-repeat;
+  /* background-image: radial-gradient(
+      ellipse at 50% 100%,
+      rgba(255, 255, 255, 0.8) 20%,
+      rgba(255, 255, 255, 0) 21%
+    ),
+    linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)),
+    linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)),
+    radial-gradient(
+      ellipse,
+      rgba(255, 255, 255, 0.8) 23%,
+      rgba(255, 255, 255, 0) 25%
+    ),
+    radial-gradient(circle, #f5deb3 50%, rgba(245, 222, 179, 0) 51%),
+    radial-gradient(circle, #f5deb3 50%, rgba(245, 222, 179, 0) 51%),
+    radial-gradient(circle, #f5deb3 50%, rgba(245, 222, 179, 0) 51%),
+    radial-gradient(circle, #f5deb3 50%, rgba(245, 222, 179, 0) 51%),
+    radial-gradient(circle, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 51%),
+    radial-gradient(circle, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 51%),
+    radial-gradient(circle, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 51%),
+    radial-gradient(circle, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 51%),
+    radial-gradient(circle, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 51%),
+    radial-gradient(circle, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 51%),
+    linear-gradient(to top, var(--raw-umber-t) 85%, #ccc 85%); */
+  background-image:
+  /* linear-gradient(
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.7)
+    ), */
+    /* linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), radial-gradient(
+      ellipse,
+      rgba(255, 255, 255, 0.8) 23%,
+      rgba(255, 255, 255, 0) 25%
+    ), */
+    /* radial-gradient(circle, #f5deb3 50%, rgba(245, 222, 179, 0) 51%),
+    radial-gradient(circle, #f5deb3 50%, rgba(245, 222, 179, 0) 51%),
+    radial-gradient(circle, #f5deb3 50%, rgba(245, 222, 179, 0) 51%),
+    radial-gradient(circle, #f5deb3 50%, rgba(245, 222, 179, 0) 51%), */ radial-gradient(
+      circle,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0) 51%
+    ),
+    radial-gradient(circle, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 51%),
+    radial-gradient(circle, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 51%),
+    radial-gradient(circle, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 51%),
+    radial-gradient(circle, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 51%),
+    radial-gradient(circle, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 51%),
+    linear-gradient(to top, var(--raw-umber-t) 85%, rgba(0, 0, 0, 0) 85%);
+  background-size: 0.3em 0.3em, 0.3em 0.3em, 0.3em 0.3em, 0.3em 0.3em,
+    0.3em 0.3em, 0.3em 0.3em, 0.3em 0.3em, 0.3em 0.3em, 0.3em 0.3em, 0.3em 0.3em,
+    100% 100%;
+  background-position: 95% 3%, 20% 30%, 80% 45%, 72% 58%, 30% 88%, 14% 45%,
+    70% 30%, 30% 70%, 17% 94%, 50% 95%, 80% 90%, 0 0;
 }
 .ground-box.running {
   animation: ground 1s infinite;
@@ -235,4 +325,65 @@ body {
   text-align: center;
   display: flex;
   justify-content: center;
+}
+
+.button-outer {
+  padding-top: 50px;
+  text-align: center;
+}
+.start-button {
+  font-size: 1.6rem;
+
+  padding: 2em;
+  border: none;
+  background-color: var(--dark-moss-green);
+  color: var(--light-blue);
+}
+
+.seed-fall {
+  position: absolute;
+  animation: falling 5s ease;
+  animation-iteration-count: 1;
+  top: 105%;
+  left: 50%;
+}
+.seed {
+  display: block;
+  width: 20px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--earth-yellow);
+  animation: wobble 0.5s ease-in-out;
+  animation-direction: alternate;
+  animation-iteration-count: 8;
+}
+.fade-in {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes falling {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+@keyframes wobble {
+  0% {
+    transform: rotate(-15deg);
+  }
+  100% {
+    transform: rotate(15deg);
+  }
 }

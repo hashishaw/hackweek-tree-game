@@ -2,6 +2,7 @@
   <button
     class='action {{if @tree.growLeaves.isRunning 'disabled'}}'
     {{on 'click' @tree.growLeaves.perform}}
+    disabled={{@tree.growLeaves.isRunning}}
   >
     Grow Leaves
   </button>
@@ -9,6 +10,7 @@
   <button
     class='action {{if @tree.growMass.isRunning 'disabled'}}'
     {{on 'click' @tree.growMass.perform}}
+    disabled={{@tree.growMass.isRunning}}
   >
     Grow Mass
   </button>
@@ -16,6 +18,7 @@
   <button
     class='action {{if @tree.storeWater.isRunning 'disabled'}}'
     {{on 'click' @tree.storeWater.perform}}
+    disabled={{@tree.storeWater.isRunning}}
   >
     Store Water
   </button>

@@ -1,0 +1,24 @@
+<div class='start-outer'>
+  <div class='scene'>
+    <div class='weather-box'>
+      <div class='fade-in'>
+        <div class='seed-fall'>
+          <div class='seed'>
+          </div>
+        </div>
+      </div>
+      {{#if this.showButton}}
+        <div class='button-outer'>
+          <button
+            {{did-insert this.fadeIn}}
+            class='start-button title'
+            {{on 'click' @startGame}}
+          >Start Game</button>
+        </div>
+      {{/if}}
+    </div>
+    <div class='ground-box'></div>
+  </div>
+</div>
+
+{{yield}}

@@ -1,7 +1,10 @@
 <div>
   <div class='scene'>
     <div class='weather-box {{if @running 'running' 'paused'}}'>
-      <div class='tree-icon'>🌳</div>
+      <div
+        class='tree-icon'
+        style='font-size: {{@game.tree.displayHeight}};'
+      >🌳</div>
     </div>
     <div class='ground-box {{if @running 'running' 'paused'}}'>
       <div class='tree-stats'>
@@ -9,7 +12,9 @@
         <ul>
           <li>Species: <strong>{{@game.tree.species}}</strong></li>
           <li>Status: <strong>{{@game.tree.status}}</strong></li>
-          <li>PhP: <strong>{{format-float @game.tree.php 0}}</strong></li>
+        </ul>
+
+        <ul>
           <li>Leaves:
             <strong>{{@game.tree.leafCount}}
               /
@@ -17,15 +22,14 @@
           <li>Water Stored:
             <strong>{{format-float @game.tree.waterStored}}
               /
-              {{format-float @game.tree.waterStorageTotal}}</strong></li>
+              {{@game.tree.waterStorageTotal}}</strong></li>
           <li>Trunk:
             <strong>{{format-float @game.tree.diameter}}m wide x
               {{format-float @game.tree.trunkHeight}}m tall</strong></li>
           <li>Roots:
             <strong>{{@game.tree.rootDepth}}m deep (x
-              {{@game.tree.rootEnds}}</strong></li>
+              {{@game.tree.rootEnds}})</strong></li>
         </ul>
-
       </div>
       <canvas class='water-level'></canvas>
     </div>

@@ -24,8 +24,7 @@
       </div>
     {{else}}
       <div class='main'>
-        <h1>Start Game</h1>
-        <button {{on 'click' this.startGame}}>Start Game</button>
+        <StartScreen @startGame={{this.startGame}} />
       </div>
     {{/if}}
   </div>
@@ -34,6 +33,13 @@
     {{#modal-dialog}}
       <h2>Game is Paused</h2>
       <button {{on 'click' this.pause}}>Resume</button>
+    {{/modal-dialog}}
+  {{/if}}
+
+  {{#if this.game.gameOver}}
+    {{#modal-dialog}}
+      <h2>You Died</h2>
+      <p>{{this.game.seasonName}} of year {{this.game.year}}</p>
     {{/modal-dialog}}
   {{/if}}
 
