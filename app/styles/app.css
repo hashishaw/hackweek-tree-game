@@ -26,9 +26,10 @@ button,
 
 .outer {
   background: paleturquoise;
-  margin: 2em 3em;
   border-radius: 1em;
   padding: 1em;
+  max-width: 1000px;
+  margin: 2em auto;
 }
 
 .fade-in {

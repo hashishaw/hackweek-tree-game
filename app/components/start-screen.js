@@ -17,4 +17,7 @@ export default class StartScreenComponent extends Component {
   fadeIn(element) {
     element.classList.add('fade-in');
   }
+  grow(element) {
+    element.classList.add('start-grow');
+  }
 }
