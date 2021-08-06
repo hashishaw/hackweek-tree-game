@@ -23,13 +23,16 @@ body {
 a {
   color: var(--light-blue);
 }
+button,
+.start-button {
+  font-family: 'Sigmar One', sans-serif;
+}
 h1,
 h2,
 h3,
 h4,
 h5,
 h6,
-button,
 .title {
   font-family: 'Sigmar One', sans-serif;
   margin: 0;

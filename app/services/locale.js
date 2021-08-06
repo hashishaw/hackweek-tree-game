@@ -8,12 +8,11 @@ import {
   rollZed,
 } from '../utils/random';
 export default class LocaleService extends Service {
-  // TODO: Constructor with various base stats/location
   constructor() {
     super(...arguments);
     this.seasonDays = arguments.seasonDays || 91;
     this.location =
-      'Traditional territory of the Jumano, Tonkawa, Lipan Apache, and Coahuiltecan Tribes';
+      'Traditional territory of the Jumano, Tonkawa, Lipan Apache, and Coahuiltecan Peoples';
   }
 
   min = 40;
@@ -51,7 +50,7 @@ export default class LocaleService extends Service {
   }
 
   /**
-   *
+   * Rain amount for day based on season and temp change
    * @param {number} season index of which season is currently running
    * @param {*} difference number, positive or negative, which indicates the change in weather from yesterday
    * @returns

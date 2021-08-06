@@ -56,28 +56,14 @@ export default class GameService extends Service {
 
   tick() {
     this.clock++;
-    // Get weather
+    // TODO: Pause here instead of runDays?
     let weather = this.locale.getWeather(this.clock, this.seasonCount);
     if (weather.event) {
       this.event = weather.event;
       this.pause();
     }
     this.tree.dailyGrow(weather);
-    // TODO: Adjust env
-    // TODO: Tree resources
-    // TODO: Get event (non-player pause)
     return this.clock;
-  }
-  nextAnimationFrame() {
-    let nextTimeToTick = Date.now();
-    const now = Date.now();
-    if (nextTimeToTick <= now) {
-      this.tick();
-      nextTimeToTick = now + TICK_RATE;
-    }
-    if (this.stopClock > this.clock) {
-      requestAnimationFrame(this.nextAnimationFrame.bind(this));
-    }
   }
 
   @task *runSeason(setNumber = SEASON_DAYS) {
