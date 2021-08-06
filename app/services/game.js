@@ -4,9 +4,9 @@ import { task, timeout, waitForProperty } from 'ember-concurrency';
 import LocaleService from './locale';
 import TreeService from './tree';
 
-const TICK_RATE = 3000;
+const TICK_RATE = 2000;
 const SEASONS = ['spring', 'summer', 'fall', 'winter'];
-const SEASON_DAYS = 10; // TODO: season days should be 91
+const SEASON_DAYS = 20; // TODO: season days should be 91
 
 /**
  * You Are A Tree
@@ -16,7 +16,7 @@ export default class GameService extends Service {
   constructor() {
     super();
     this.species = 'Sycamore';
-    this.locale = new LocaleService({ location: 'Texas' });
+    this.locale = new LocaleService({ seasonDays: SEASON_DAYS });
     this.tree = new TreeService({ species: 'Sycamore' });
     this.started = false;
   }

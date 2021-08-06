@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { rollDie, rollZed } from '../utils/random';
 import { task, timeout } from 'ember-concurrency';
 
+const TICK_SPEED = 2000;
 export default class TreeService extends Service {
   constructor() {
     super();
@@ -34,13 +35,15 @@ export default class TreeService extends Service {
     return this.leafCount / this.sunReq;
   }
   get status() {
-    console.log('status', this.php, this.waterStored);
     if (this.php <= 0 && this.waterStored <= 0) {
       console.log('is dead');
       return 'Dead';
     }
     if (this.waterStored < 0.1) return 'Stressed';
     return 'Healthy';
+  }
+  get hasNoPoints() {
+    return this.php <= 0;
   }
   updatePhp(newPhp) {
     if (newPhp < 0) {
@@ -60,7 +63,7 @@ export default class TreeService extends Service {
     console.log('grow leaves');
     let amount = rollDie(5);
     this.updatePhp(this.php - amount);
-    yield timeout(1000);
+    yield timeout(TICK_SPEED);
     this.updateLeaves(this.leafCount + amount);
     // how many leaves it grows depends on how many branches, PHP spent, water available
   }
@@ -81,7 +84,7 @@ export default class TreeService extends Service {
       this.storeWater(newWater);
       this.updatePhp(this.php - 1);
     }
-    yield timeout(1000);
+    yield timeout(TICK_SPEED);
     // cost: 1 PhP
     // How much water it can store on an action depends on water table, root depth, and
   }
@@ -91,10 +94,21 @@ export default class TreeService extends Service {
     let amount = Math.ceil(newGrowth * costRatio);
     console.log('grow mass, php spent:', amount, this.php);
     this.updatePhp(this.php - amount * 5);
-    yield timeout(1000);
+    yield timeout(TICK_SPEED);
     this.diameter += newGrowth;
     this.rootDepth += newGrowth;
     this.trunkHeight += newGrowth;
+  }
+  @task *growRoots(evt, growthSpeed = 1, costRatio = 1) {
+    // TODO: calculate better
+    let newGrowth = growthSpeed * 0.1;
+    let amount = Math.ceil(newGrowth * costRatio);
+    console.log('grow mass, php spent:', amount, this.php);
+    this.updatePhp(this.php - amount * 5);
+    this.diameter += newGrowth;
+    this.rootDepth += newGrowth;
+    this.trunkHeight += newGrowth;
+    yield timeout(TICK_SPEED);
   }
   @action
   makeEnergy(sunshineHours, waterRatio = 5) {
@@ -116,6 +130,10 @@ export default class TreeService extends Service {
   }
   @action
   dailyGrow(weather) {
+    console.log({ weather });
+    if (weather.event) {
+      window.alert(`Weather event: ${weather.event}`);
+    }
     if (this.status === 'Dead') {
       return;
     }
@@ -133,20 +151,23 @@ export default class TreeService extends Service {
     this.updatePhp(this.php - 1);
     this.makeEnergy(weather.sunshine);
     // TODO: adjust water table
-    // if (weather.rain > 1) {
-    //   this.waterTable = 0;
-    // } else if (weather.rain > 0) {
-    //   this.waterTable += 0.1;
-    // } else {
-    //   this.waterTable -= 0.1;
-    // }
-    // let waterTable = this.waterTable;
-    // let rootDepth = this.rootDepth;
-    // if (rootDepth >= waterTable) {
-    //   let waterAmt = this.rootEnds * 0.4; // efficiency
-    //   let newWater = this.waterStored + waterAmt;
-    //   this.storeWater(newWater);
-    //   // this.updatePhp(this.php - 1);
-    // }
+    if (weather.rain > 1) {
+      this.waterTable -= weather.rain / 10;
+    } else if (weather.rain > 0) {
+      this.waterTable += 0.1;
+    } else {
+      this.waterTable -= 0.1;
+    }
+    let waterTable = this.waterTable;
+    let rootDepth = this.rootDepth;
+    if (rootDepth >= waterTable) {
+      let waterAmt = this.rootEnds * 0.4; // efficiency
+      let newWater = this.waterStored + waterAmt;
+      this.storeWater(newWater); //   // this.updatePhp(this.php - 1);
+    } else {
+      let waterAmt = this.rootEnds * 0.1;
+      let newWater = this.waterStored + waterAmt;
+      this.storeWater(newWater);
+    }
   }
 }

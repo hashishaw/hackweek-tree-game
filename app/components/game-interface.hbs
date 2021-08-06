@@ -36,12 +36,19 @@
           PhP) Defend against disease</label><br />
 
         <h3>Action options (0/5)</h3>
-        <label><input type='checkbox' value='leaves' />Grow leaves</label><br />
-        <label><input type='checkbox' value='drop' />Drop leaves</label><br />
+        {{#if (eq this.game.seasonName 'spring')}}
+          <label><input type='checkbox' value='leaves' />Grow leaves</label><br
+          />
+        {{/if}}
+        {{#if (eq this.game.seasonName 'winter')}}
+          <label><input type='checkbox' value='drop' />Drop leaves</label><br />
+        {{/if}}
         <label><input type='checkbox' value='mass' />Grow mass</label><br />
         <label><input type='checkbox' value='roots' />Grow roots</label><br />
-        <label><input type='checkbox' value='branches' />Grow branches</label><br
-        />
+        {{#if (eq this.game.seasonName 'spring')}}
+          <label><input type='checkbox' value='branches' />Grow branches</label><br
+          />
+        {{/if}}
         <label><input type='checkbox' value='exchange' />Exchange nutrients</label><br
         />
         <button {{on 'click' this.startGame}}>Next season</button>

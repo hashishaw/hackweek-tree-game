@@ -92,7 +92,7 @@
   background: green;
   transform-origin: bottom center;
   transform: rotate(40deg);
-  animation: leaf 3s ease;
+  animation: leaf 2s ease;
   animation-delay: 5s;
   animation-iteration-count: 1;
 }

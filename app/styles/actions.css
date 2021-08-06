@@ -5,9 +5,9 @@
 }
 
 .action {
-  border: 5px solid var(--dark-moss-green);
-  background-color: var(--moss-green);
-  color: var(--earth-yellow);
+  border: 5px solid var(--dark-lava);
+  background-color: var(--light-blue);
+  color: var(--dark-lava);
   width: 80px;
   word-wrap: break-word;
   height: 80px;
@@ -19,8 +19,9 @@
   justify-content: center;
 }
 .action.disabled {
-  border-color: var(--dark-moss-green-t);
-  background-color: var(--moss-green-t);
+  opacity: 0.8;
+  border: 5px solid var(--dark-lava-t);
+  background-color: var(--light-blue-t);
 }
 
 .empty-action {

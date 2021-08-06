@@ -8,15 +8,16 @@ import {
   rollZed,
 } from '../utils/random';
 const YEAR_DAYS = 364;
-const SEASON_DAYS = 20; //91;
-
 export default class LocaleService extends Service {
   // TODO: Constructor with various base stats/location
+  constructor() {
+    super(...arguments);
+    this.seasonDays = arguments.seasonDays || 91;
+  }
 
   min = 40;
-  max = 90;
+  max = 94;
   @tracked instability = 1;
-  @tracked waterTable = 1; // meters below ground
   @tracked isDrought;
   @tracked temp;
   @tracked rain = 0; // TODO: how is this measured?
@@ -39,7 +40,7 @@ export default class LocaleService extends Service {
   getTempForDay(x = 0) {
     var amplitude = Math.abs(this.max - this.min) / 2;
     var tempOffset = this.max - amplitude;
-    var frequency = YEAR_DAYS / (Math.PI * 2);
+    var frequency = (this.seasonDays * 4) / (Math.PI * 2);
     let extreme = rollSplit(this.instability) / 10 + 1;
     let variation = rollRandomSpike(14, true) + rollFibDiv(this.instability);
     // y = (maxF/2 + amplitude) * Math.sin(x/frequency);
@@ -126,7 +127,15 @@ export default class LocaleService extends Service {
     let chance = rollZed(20);
     // console.log(chance, this.instability);
     if (3 + this.instability > chance) {
-      return 'FLOOD';
+      if (difference < -3) {
+        return 'FLOOD';
+      } else if (temp > 90) {
+        return 'DROUGHT';
+      } else if (seasonCt % 4 === 3) {
+        return 'FREEZE';
+      } else {
+        return 'WINDS';
+      }
       // return {
       //   title: 'Weather Event!',
       //   details: 'There is flooding in your area',
@@ -140,8 +149,7 @@ export default class LocaleService extends Service {
     let y = this.getTempForDay(x);
     let rain = this.getRainForSeason(season, y - prevTemp);
     let sunshine = this.getSunshineForSeason(rain);
-    let event = this.getWeatherEvent(y, y - prevTemp);
-    // console.log(rain, 'rain', sunshine, 'sunshine', event, 'event');
+    let event = this.getWeatherEvent(y, y - prevTemp, season);
     if (event) {
       this.eventCount++;
     }
@@ -158,21 +166,17 @@ export default class LocaleService extends Service {
       rain,
       sunshine,
       difference: y - prevTemp,
+      event,
     };
   }
 
   @task *fastSeason(x, season) {
-    let finish = x + SEASON_DAYS;
+    let finish = x + this.seasonDays;
     while (x <= finish) {
       this.getWeather(x, season);
       yield timeout(250);
       x = x + 1;
     }
     return x;
-  }
-
-  // TODO: Move this to tree service
-  useWater(thirstLevel = 5) {
-    this.waterTable = this.waterTable + rollZed(thirstLevel);
   }
 }

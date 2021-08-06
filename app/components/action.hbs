@@ -1,26 +1,38 @@
 {{#if (eq @type 'leaves')}}
   <button
-    class='action {{if @tree.growLeaves.isRunning 'disabled'}}'
+    class='action
+      {{if (or @tree.growLeaves.isRunning @tree.hasNoPoints) 'disabled'}}'
     {{on 'click' @tree.growLeaves.perform}}
-    disabled={{@tree.growLeaves.isRunning}}
+    disabled={{or @tree.growLeaves.isRunning @tree.hasNoPoints}}
   >
     Grow Leaves
   </button>
 {{else if (eq @type 'mass')}}
   <button
-    class='action {{if @tree.growMass.isRunning 'disabled'}}'
+    class='action
+      {{if (or @tree.hasNoPoints @tree.growMass.isRunning) 'disabled'}}'
     {{on 'click' @tree.growMass.perform}}
-    disabled={{@tree.growMass.isRunning}}
+    disabled={{or @tree.hasNoPoints @tree.growMass.isRunning}}
   >
     Grow Mass
   </button>
 {{else if (eq @type 'water')}}
   <button
-    class='action {{if @tree.absorbWater.isRunning 'disabled'}}'
+    class='action
+      {{if (or @tree.hasNoPoints @tree.absorbWater.isRunning) 'disabled'}}'
     {{on 'click' @tree.absorbWater.perform}}
-    disabled={{@tree.absorbWater.isRunning}}
+    disabled={{or @tree.hasNoPoints @tree.absorbWater.isRunning}}
   >
     Store Water
+  </button>
+{{else if (eq @type 'roots')}}
+  <button
+    class='action
+      {{if (or @tree.hasNoPoints @tree.growRoots.isRunning) 'disabled'}}'
+    {{on 'click' @tree.growRoots.perform}}
+    disabled={{or @tree.hasNoPoints @tree.growRoots.isRunning}}
+  >
+    Grow Roots
   </button>
 {{else}}
   <div class='empty-action'></div>
