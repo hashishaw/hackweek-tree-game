@@ -1,7 +1,7 @@
 /** weather box */
 .scene {
   position: relative;
-  background: black;
+  background: var(--black-chocolate);
   padding: 3px;
 }
 .weather-box {

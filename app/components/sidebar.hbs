@@ -13,11 +13,14 @@
   m<br />
 
   {{#if this.game.runSeason.isRunning}}
-    <h4>Day {{this.game.day}} of 30 ({{this.game.seasonName}})</h4>
-    <Thermometer @temperature={{this.game.locale.temp}} />
-    {{format-float this.game.locale.rain}}" rain<br />
+    <h4>Day {{this.game.day}} of 20</h4>
+    Temp:
+    {{format-float this.game.locale.temp 0}}°F<br />
+    Rain:
+    {{format-float this.game.locale.rain}}"<br />
+    Sun:
     {{format-float this.game.locale.sunshine}}
-    hrs of Sun
+    hrs<br />
     <button {{on 'click' this.pause}}>Pause</button>
   {{else}}
     <div>

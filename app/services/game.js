@@ -29,7 +29,7 @@ export default class GameService extends Service {
   @tracked paused = false;
   @tracked seasonCount = 0;
   @tracked year = 1;
-  @tracked hasEvent = false;
+  @tracked event = false;
   @tracked gameState = 'INIT'; // 'SEASON', 'STORE', 'ACTIONS'
   // @tracked species = 'oak';
   get gameOver() {
@@ -58,6 +58,10 @@ export default class GameService extends Service {
     this.clock++;
     // Get weather
     let weather = this.locale.getWeather(this.clock, this.seasonCount);
+    if (weather.event) {
+      this.event = weather.event;
+      this.pause();
+    }
     this.tree.dailyGrow(weather);
     // TODO: Adjust env
     // TODO: Tree resources
@@ -110,5 +114,6 @@ export default class GameService extends Service {
   }
   @task *pauseWaiter() {
     yield waitForProperty(this, 'paused', false);
+    this.event = '';
   }
 }

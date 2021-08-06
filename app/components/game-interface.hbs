@@ -5,6 +5,7 @@
       {{this.game.year}}
       ({{this.game.seasonName}})
     </h1>
+    <p>{{this.game.locale.location}}</p>
   </div>
   {{#if this.game.gameOver}}
     <div class='main'>
@@ -62,7 +63,11 @@
 
 {{#if this.game.paused}}
   {{#modal-dialog}}
-    <h2>Game is Paused</h2>
+    {{#if this.game.event}}
+      <h2>Event occurred: {{this.game.event}}</h2>
+    {{else}}
+      <h2>Game is Paused</h2>
+    {{/if}}
     <button {{on 'click' this.pause}}>Resume</button>
   {{/modal-dialog}}
 {{/if}}

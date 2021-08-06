@@ -25,7 +25,7 @@
 }
 
 .empty-action {
-  border: 5px solid black;
+  border: 5px solid var(--black-chocolate);
   background-color: darkgray;
   width: 80px;
   word-wrap: break-word;

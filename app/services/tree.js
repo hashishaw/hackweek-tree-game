@@ -131,9 +131,6 @@ export default class TreeService extends Service {
   @action
   dailyGrow(weather) {
     console.log({ weather });
-    if (weather.event) {
-      window.alert(`Weather event: ${weather.event}`);
-    }
     if (this.status === 'Dead') {
       return;
     }

@@ -7,12 +7,13 @@ import {
   rollSplit,
   rollZed,
 } from '../utils/random';
-const YEAR_DAYS = 364;
 export default class LocaleService extends Service {
   // TODO: Constructor with various base stats/location
   constructor() {
     super(...arguments);
     this.seasonDays = arguments.seasonDays || 91;
+    this.location =
+      'Traditional territory of the Jumano, Tonkawa, Lipan Apache, and Coahuiltecan Tribes';
   }
 
   min = 40;
@@ -127,14 +128,14 @@ export default class LocaleService extends Service {
     let chance = rollZed(20);
     // console.log(chance, this.instability);
     if (3 + this.instability > chance) {
-      if (difference < -3) {
+      if (difference < -2) {
         return 'FLOOD';
-      } else if (temp > 90) {
+      } else if (temp > 80) {
         return 'DROUGHT';
-      } else if (seasonCt % 4 === 3) {
+      } else if (seasonCt % 4 > 2) {
         return 'FREEZE';
       } else {
-        return 'WINDS';
+        return 'STRONG WINDS';
       }
       // return {
       //   title: 'Weather Event!',
