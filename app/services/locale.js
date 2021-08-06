@@ -43,7 +43,6 @@ export default class LocaleService extends Service {
     var frequency = (this.seasonDays * 4) / (Math.PI * 2);
     let extreme = rollSplit(this.instability) / 10 + 1;
     let variation = rollRandomSpike(14, true) + rollFibDiv(this.instability);
-    // y = (maxF/2 + amplitude) * Math.sin(x/frequency);
     return (
       tempOffset + amplitude * (Math.sin(x / frequency) * extreme) + variation
     );
