@@ -4,7 +4,7 @@ import { task, timeout, waitForProperty } from 'ember-concurrency';
 import LocaleService from './locale';
 import TreeService from './tree';
 
-const TICK_RATE = 1000;
+const TICK_RATE = 3000;
 const SEASONS = ['spring', 'summer', 'fall', 'winter'];
 const SEASON_DAYS = 10; // TODO: season days should be 91
 
@@ -38,7 +38,9 @@ export default class GameService extends Service {
   get seasonName() {
     return SEASONS[this.seasonCount % 4];
   }
-
+  get day() {
+    return this.clock % SEASON_DAYS;
+  }
   nextYear() {
     this.year++;
   }
@@ -77,7 +79,6 @@ export default class GameService extends Service {
   @task *runSeason(setNumber = SEASON_DAYS) {
     this.stopClock = this.clock + setNumber;
     this.locale.resetSeasonalStats();
-
     if (this.fastMode) {
       this.clock++;
       let newClock = yield this.locale.fastSeason.perform(this.clock);
@@ -95,8 +96,12 @@ export default class GameService extends Service {
       if (this.paused) {
         yield this.pauseWaiter.perform();
       }
+      if (this.gameOver) {
+        console.log('cancelling');
+        this.runSeason.cancelAll();
+      }
       this.tick();
-      yield timeout(1000);
+      yield timeout(TICK_RATE);
     }
   }
 

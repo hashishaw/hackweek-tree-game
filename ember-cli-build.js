@@ -13,6 +13,14 @@ module.exports = function (defaults) {
         ],
       },
     },
+    contentSecurityPolicy: {
+      'default-src': "'self'",
+      'script-src': "'self'",
+      'font-src': "'self' fonts.googleapis.com fonts.gstatic.com",
+      'img-src': 'self',
+      'style-src': 'self',
+      'media-src': 'self',
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated

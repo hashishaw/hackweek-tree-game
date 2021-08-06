@@ -1,47 +1,61 @@
-{{#let (gt this.game.clock 0) as |started|}}
-  <div class='container'>
-    {{#if started}}
-      <div class='title'>
-        <h1>
-          {{this.game.species}}, ring
-          {{this.game.year}}
-          ({{this.game.seasonName}})
-        </h1>
-      </div>
-      <div class='actions'>
-        {{#if this.game.runSeason.isRunning}}
-          <Actions @tree={{this.game.tree}} />
-        {{/if}}
-      </div>
-      <div class='main'>
+<div class='container'>
+  <div class='title'>
+    <h1>
+      {{this.game.species}}, ring
+      {{this.game.year}}
+      ({{this.game.seasonName}})
+    </h1>
+  </div>
+  {{#if this.game.gameOver}}
+    <div class='main'>
+      <h2>You Died</h2>
+      <p>{{this.game.seasonName}} of year {{this.game.year}}</p>
+      <button {{on 'click' this.reset}}>Restart</button>
+    </div>
+  {{else}}
+    <div class='actions'>
+      {{#if this.game.runSeason.isRunning}}
+        <Actions @tree={{this.game.tree}} />
+      {{/if}}
+    </div>
+    <div class='main'>
+      {{#if this.game.runSeason.isRunning}}
         <WeatherBg
           @running={{this.game.runSeason.isRunning}}
           @game={{this.game}}
         />
-      </div>
-      <div class='stats'>
-        <Sidebar @game={{this.game}} />
-      </div>
-    {{else}}
-      <div class='main'>
-        <StartScreen @startGame={{this.startGame}} />
-      </div>
-    {{/if}}
-  </div>
+      {{else}}
+        <h3>Microbial Marketplace</h3>
+        <label><input type='checkbox' value='Mycorrhizae' />Mycorrhizae (10 PhP)
+          Boost water & nutrient absorption</label><br />
+        <label><input type='checkbox' value='Rhizoctonia' />Rhizoctonia (5 PhP)
+          Promote root growth</label><br />
+        <label><input type='checkbox' value='Bradyrhizobium' />Bradyrhizobium
+          (15 PhP) Fix nitrogen</label><br />
+        <label><input type='checkbox' value='Enterobacter' />Enterobacter (15
+          PhP) Defend against disease</label><br />
 
-  {{#if this.game.paused}}
-    {{#modal-dialog}}
-      <h2>Game is Paused</h2>
-      <button {{on 'click' this.pause}}>Resume</button>
-    {{/modal-dialog}}
+        <h3>Action options (0/5)</h3>
+        <label><input type='checkbox' value='leaves' />Grow leaves</label><br />
+        <label><input type='checkbox' value='drop' />Drop leaves</label><br />
+        <label><input type='checkbox' value='mass' />Grow mass</label><br />
+        <label><input type='checkbox' value='roots' />Grow roots</label><br />
+        <label><input type='checkbox' value='branches' />Grow branches</label><br
+        />
+        <label><input type='checkbox' value='exchange' />Exchange nutrients</label><br
+        />
+        <button {{on 'click' this.startGame}}>Next season</button>
+      {{/if}}
+    </div>
+    <div class='stats'>
+      <Sidebar @game={{this.game}} />
+    </div>
   {{/if}}
+</div>
 
-  {{#if this.game.gameOver}}
-    {{#modal-dialog}}
-      <h2>You Died</h2>
-      <p>{{this.game.seasonName}} of year {{this.game.year}}</p>
-      <button {{on 'click' this.reset}}>Restart</button>
-    {{/modal-dialog}}
-  {{/if}}
-
-{{/let}}
+{{#if this.game.paused}}
+  {{#modal-dialog}}
+    <h2>Game is Paused</h2>
+    <button {{on 'click' this.pause}}>Resume</button>
+  {{/modal-dialog}}
+{{/if}}

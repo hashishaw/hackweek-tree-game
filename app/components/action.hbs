@@ -16,9 +16,9 @@
   </button>
 {{else if (eq @type 'water')}}
   <button
-    class='action {{if @tree.storeWater.isRunning 'disabled'}}'
-    {{on 'click' @tree.storeWater.perform}}
-    disabled={{@tree.storeWater.isRunning}}
+    class='action {{if @tree.absorbWater.isRunning 'disabled'}}'
+    {{on 'click' @tree.absorbWater.perform}}
+    disabled={{@tree.absorbWater.isRunning}}
   >
     Store Water
   </button>

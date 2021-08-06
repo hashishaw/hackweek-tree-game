@@ -1,22 +1,26 @@
+<BarChart @label='PhP' @maxVal={{100}} @amount={{this.game.tree.php}} />
+<BarChart
+  @label='Water'
+  @maxVal={{this.game.tree.waterStorageTotal}}
+  @amount={{this.game.tree.waterStored}}
+/>
+Water table:
+{{format-float this.game.tree.waterTable}}
+m<br />
+Root depth:
+{{format-float this.game.tree.rootDepth}}
+m<br />
+
 {{#if this.game.runSeason.isRunning}}
-  Day
-  {{this.game.clock}}<br />
+  <h4>Day {{this.game.day}} of 30 ({{this.game.seasonName}})</h4>
   <Thermometer @temperature={{this.game.locale.temp}} />
   {{format-float this.game.locale.rain}}" rain<br />
   {{format-float this.game.locale.sunshine}}
   hrs of Sun
-
-  <BarChart @label='PhP' @maxVal={{100}} @amount={{this.game.tree.php}} />
-  <BarChart
-    @label='Water'
-    @maxVal={{this.game.tree.waterStorageTotal}}
-    @amount={{this.game.tree.waterStored}}
-  />
   <button {{on 'click' this.pause}}>Pause</button>
 {{else}}
   <div>
-    <strong>End of season stats:</strong>
-    <br />
+    <h4>End of season stats:</h4>
     Total rain:
     {{format-float this.game.locale.totalRain}}<br />
     Total sun:

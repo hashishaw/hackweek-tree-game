@@ -35,7 +35,7 @@
   background-position: 10% 30%, -10% 18%, 100% 60%, 110% 65%;
 }
 .weather-box.running {
-  animation: sky 1s infinite;
+  animation: sky 3s infinite;
   animation-direction: alternate;
 }
 .ground-box {
@@ -98,7 +98,7 @@
     70% 30%, 30% 70%, 17% 94%, 50% 95%, 80% 90%, 0 0;
 }
 .ground-box.running {
-  animation: ground 1s infinite;
+  animation: ground 3s infinite;
   animation-direction: alternate;
 }
 
