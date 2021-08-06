@@ -4,7 +4,7 @@ module.exports = function (environment) {
   let ENV = {
     modulePrefix: 'you-are-a-tree',
     environment,
-    rootURL: '/intro',
+    rootURL: '/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
